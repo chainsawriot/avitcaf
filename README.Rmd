@@ -1,0 +1,42 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# avitcaf
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of avitcaf is to extract news content from a wire service (that I can't even name it here).
+
+## Installation
+
+``` r
+remotes::install_github("chainsawriot/avitcaf")
+```
+
+## Data collection
+
+Please refer to the following two screenshots and use your imagination.
+
+<img src="man/figures/save1.png" align="center" height="400" />
+
+<img src="man/figures/save2.png" align="center" height="400" />
+
+## Usage
+
+```{r}
+avitcaf::avitcaf("nypost.html")
+```
+
