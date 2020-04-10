@@ -11,7 +11,8 @@
     .get_td("LP", tr_blocks) -> lede
     .get_td("TD", tr_blocks) -> body
     .get_td("HD", tr_blocks) -> headline
-    return(tibble::tibble(pubdate, headline, lede, body))
+    .get_td("SN", tr_blocks) -> source
+    return(tibble::tibble(pubdate, headline, lede, body, source))
 }
 
 .extract_articles <- function(path, id = "MNG") {
@@ -21,6 +22,7 @@
 }
 
 #' @export
-avitcaf <- function(path) {
-    .extract_articles(path)
+avitcaf <- function(...) {
+    input_paths <- list(...)
+    purrr::map_dfr(input_paths, .extract_articles)
 }

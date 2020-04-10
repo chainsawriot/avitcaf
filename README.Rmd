@@ -40,3 +40,8 @@ Please refer to the following two screenshots and use your imagination.
 avitcaf::avitcaf("nypost.html")
 ```
 
+Multiple files? No problem, bring them on!
+
+```{r}
+avitcaf::avitcaf("nyt.html", "nypost.html")
+```

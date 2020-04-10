@@ -1,6 +1,6 @@
 Package: avitcaf
 Title: Extracting News Content From A Wire Service
-Version: 0.0.0.1
+Version: 0.0.1
 Authors@R: 
     person(given = "Chung-hong",
            family = "Chan",
