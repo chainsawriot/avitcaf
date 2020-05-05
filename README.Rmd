@@ -45,3 +45,9 @@ Multiple files? No problem, bring them on!
 ```{r}
 avitcaf::avitcaf("nyt.html", "nypost.html")
 ```
+
+NOTE: For non-English articles, you need to change the `id` argument. For example:
+
+```{r}
+avitcaf::avitcaf("sz.html", id = "div.deArticle")
+```

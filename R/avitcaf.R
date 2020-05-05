@@ -15,14 +15,18 @@
     return(tibble::tibble(pubdate, headline, lede, body, source))
 }
 
-.extract_articles <- function(path, id = "MNG") {
+.extract_articles <- function(path, id = "div.enArticle") {
     xml2::read_html(path) -> parsed_article
-    parsed_article %>% rvest::html_nodes(paste0("div.enArticle")) -> article_units
+    parsed_article %>% rvest::html_nodes(paste0(id)) -> article_units
     purrr::map_dfr(article_units, .extract_article)
 }
 
 #' @export
-avitcaf <- function(...) {
+avitcaf <- function(..., id = "div.enArticle") {
     input_paths <- list(...)
-    purrr::map_dfr(input_paths, .extract_articles)
+    if (length(input_paths[[1]]) != 1) {
+        ## it is a vector
+        input_paths <- unlist(input_paths)
+    }
+    purrr::map_dfr(input_paths, .extract_articles, id = id)
 }
