@@ -12,17 +12,26 @@
     .get_td("TD", tr_blocks) -> body
     .get_td("HD", tr_blocks) -> headline
     .get_td("SN", tr_blocks) -> source
-    return(tibble::tibble(pubdate, headline, lede, body, source))
+    .get_td("AN", tr_blocks) -> uid
+    return(tibble::tibble(uid, pubdate, headline, lede, body, source))
 }
 
-.extract_articles <- function(path, id = "div.enArticle") {
+.guess_id <- function(parsed_article) {
+    parsed_article %>% rvest::html_nodes("div.article") %>% rvest::html_attr(name = "class") %>% stringr::str_split(" ") %>% unlist %>% unique -> all_classes
+    return(all_classes[all_classes != "article"][1])
+}
+
+.extract_articles <- function(path, id = "guess") {
     xml2::read_html(path) -> parsed_article
-    parsed_article %>% rvest::html_nodes(paste0(id)) -> article_units
+    if (id == "guess") {
+        id <- paste0("div.", .guess_id(parsed_article))
+    }
+    parsed_article %>% rvest::html_nodes(id) -> article_units
     purrr::map_dfr(article_units, .extract_article)
 }
 
 #' @export
-avitcaf <- function(..., id = "div.enArticle") {
+avitcaf <- function(..., id = "guess") {
     input_paths <- list(...)
     if (length(input_paths[[1]]) != 1) {
         ## it is a vector
