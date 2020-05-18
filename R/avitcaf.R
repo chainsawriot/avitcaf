@@ -30,6 +30,17 @@
     purrr::map_dfr(article_units, .extract_article)
 }
 
+.extract_query <- function(parsed_article) {
+    ..extract_meta <- function(label, query_block) {
+        query_block %>% .get_td(label, .) -> res
+        return(res)
+    }
+    parsed_article %>% rvest::html_node("table.searchPreview") %>% rvest::html_nodes('tr') -> query_block
+    query_block %>% rvest::html_nodes('td.label') %>% rvest::html_text() -> tr_labels
+    res <- purrr::map_chr(tr_labels, ..extract_meta, query_block = query_block)
+    tibble::tibble(field = tr_labels, res = res)
+}
+
 #' @export
 avitcaf <- function(..., id = "guess") {
     input_paths <- list(...)
